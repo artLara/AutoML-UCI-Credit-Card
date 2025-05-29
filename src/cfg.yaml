@@ -1,0 +1,99 @@
+run:
+  name: 'AutoML_v1'
+  output_dir: 'reports'
+  logging_level: 1
+
+algorithms:
+  metrics:
+    - 'mse'
+    - 'root_mean_squared_error'
+
+  regressor_nn: #Full Connected Neural Network for regressor task
+    batch_size: 32
+    epochs: 2
+    init_lr: 0.0001
+    loss: 'mse'
+    
+    
+    architecture:
+      type: ''
+      input_shape: 
+        - 23
+
+      fc:
+        - neurons: 64
+          activation: 'relu'
+
+        - neurons: 32
+          activation: 'relu'
+
+        - neurons: 16
+          activation: 'relu'
+
+        - neurons: 2
+          activation: 'softmax'
+
+  svm:
+    C:
+      - 0.1
+      - 1
+      - 10
+
+    gamma:
+      - 1
+      - 0.1
+      - 0.01
+
+    kernel:
+      - 'rbf'
+      - 'linear'
+
+  decision_tree:
+    max_features:
+      - 'sqrt'
+      - 'log2'
+    
+    max_depth:
+      - 4
+      - 6
+      - 8
+
+    criterion:
+      - 'gini'
+      - 'entropy'
+
+  random_forest:
+    n_estimators:
+      - 10
+      - 50
+      - 75
+      
+    max_features:
+      - 'sqrt'
+      - 'log2'
+    
+    max_depth:
+      - 4
+      - 6
+      - 8
+
+    criterion:
+      - 'gini'
+      - 'entropy'
+    
+data:
+  loader: 'regression'
+  source:
+    full: 'data/__processed/uci_dataset'
+    train: null
+    validation: null
+    test: null
+
+  annotations:
+    full: 'data/raw/default_of_credit_card_clients.xls'
+    train: 'data/__processed/train.csv'
+    test: 'data/__processed/test.csv'
+
+details:
+  description : 'Busqueda del mejor algoritmo utilizando AutoML'
+  
